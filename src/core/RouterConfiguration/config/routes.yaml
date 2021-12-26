@@ -1,0 +1,300 @@
+route1:
+    url: ~home1~
+    controller: 'controllers/Controller1.php'
+route2:
+    url: ~home2~
+    controller: 'controllers/Controller2.php'
+route3:
+    url: ~home3~
+    controller: 'controllers/Controller3.php'
+route4:
+    url: ~home4~
+    controller: 'controllers/Controller4.php'
+route5:
+    url: ~home5~
+    controller: 'controllers/Controller5.php'
+route6:
+    url: ~home6~
+    controller: 'controllers/Controller6.php'
+route7:
+    url: ~home7~
+    controller: 'controllers/Controller7.php'
+route8:
+    url: ~home8~
+    controller: 'controllers/Controller8.php'
+route9:
+    url: ~home9~
+    controller: 'controllers/Controller9.php'
+route10:
+    url: ~home10~
+    controller: 'controllers/Controller10.php'
+route11:
+    url: ~home11~
+    controller: 'controllers/Controller11.php'
+route12:
+    url: ~home12~
+    controller: 'controllers/Controller12.php'
+route13:
+    url: ~home13~
+    controller: 'controllers/Controller13.php'
+route14:
+    url: ~home14~
+    controller: 'controllers/Controller14.php'
+route15:
+    url: ~home15~
+    controller: 'controllers/Controller15.php'
+route16:
+    url: ~home16~
+    controller: 'controllers/Controller16.php'
+route17:
+    url: ~home17~
+    controller: 'controllers/Controller17.php'
+route18:
+    url: ~home18~
+    controller: 'controllers/Controller18.php'
+route19:
+    url: ~home19~
+    controller: 'controllers/Controller19.php'
+route20:
+    url: ~home20~
+    controller: 'controllers/Controller20.php'
+route21:
+    url: ~home21~
+    controller: 'controllers/Controller21.php'
+route22:
+    url: ~home22~
+    controller: 'controllers/Controller22.php'
+route23:
+    url: ~home23~
+    controller: 'controllers/Controller23.php'
+route24:
+    url: ~home24~
+    controller: 'controllers/Controller24.php'
+route25:
+    url: ~home25~
+    controller: 'controllers/Controller25.php'
+route26:
+    url: ~home26~
+    controller: 'controllers/Controller26.php'
+route27:
+    url: ~home27~
+    controller: 'controllers/Controller27.php'
+route28:
+    url: ~home28~
+    controller: 'controllers/Controller28.php'
+route29:
+    url: ~home29~
+    controller: 'controllers/Controller29.php'
+route30:
+    url: ~home30~
+    controller: 'controllers/Controller30.php'
+route31:
+    url: ~home31~
+    controller: 'controllers/Controller31.php'
+route32:
+    url: ~home32~
+    controller: 'controllers/Controller32.php'
+route33:
+    url: ~home33~
+    controller: 'controllers/Controller33.php'
+route34:
+    url: ~home34~
+    controller: 'controllers/Controller34.php'
+route35:
+    url: ~home35~
+    controller: 'controllers/Controller35.php'
+route36:
+    url: ~home36~
+    controller: 'controllers/Controller36.php'
+route37:
+    url: ~home37~
+    controller: 'controllers/Controller37.php'
+route38:
+    url: ~home38~
+    controller: 'controllers/Controller38.php'
+route39:
+    url: ~home39~
+    controller: 'controllers/Controller39.php'
+route40:
+    url: ~home40~
+    controller: 'controllers/Controller40.php'
+route41:
+    url: ~home41~
+    controller: 'controllers/Controller41.php'
+route42:
+    url: ~home42~
+    controller: 'controllers/Controller42.php'
+route43:
+    url: ~home43~
+    controller: 'controllers/Controller43.php'
+route44:
+    url: ~home44~
+    controller: 'controllers/Controller44.php'
+route45:
+    url: ~home45~
+    controller: 'controllers/Controller45.php'
+route46:
+    url: ~home46~
+    controller: 'controllers/Controller46.php'
+route47:
+    url: ~home47~
+    controller: 'controllers/Controller47.php'
+route48:
+    url: ~home48~
+    controller: 'controllers/Controller48.php'
+route49:
+    url: ~home49~
+    controller: 'controllers/Controller49.php'
+route50:
+    url: ~home50~
+    controller: 'controllers/Controller50.php'
+route51:
+    url: ~home51~
+    controller: 'controllers/Controller51.php'
+route52:
+    url: ~home52~
+    controller: 'controllers/Controller52.php'
+route53:
+    url: ~home53~
+    controller: 'controllers/Controller53.php'
+route54:
+    url: ~home54~
+    controller: 'controllers/Controller54.php'
+route55:
+    url: ~home55~
+    controller: 'controllers/Controller55.php'
+route56:
+    url: ~home56~
+    controller: 'controllers/Controller56.php'
+route57:
+    url: ~home57~
+    controller: 'controllers/Controller57.php'
+route58:
+    url: ~home58~
+    controller: 'controllers/Controller58.php'
+route59:
+    url: ~home59~
+    controller: 'controllers/Controller59.php'
+route60:
+    url: ~home60~
+    controller: 'controllers/Controller60.php'
+route61:
+    url: ~home61~
+    controller: 'controllers/Controller61.php'
+route62:
+    url: ~home62~
+    controller: 'controllers/Controller62.php'
+route63:
+    url: ~home63~
+    controller: 'controllers/Controller63.php'
+route64:
+    url: ~home64~
+    controller: 'controllers/Controller64.php'
+route65:
+    url: ~home65~
+    controller: 'controllers/Controller65.php'
+route66:
+    url: ~home66~
+    controller: 'controllers/Controller66.php'
+route67:
+    url: ~home67~
+    controller: 'controllers/Controller67.php'
+route68:
+    url: ~home68~
+    controller: 'controllers/Controller68.php'
+route69:
+    url: ~home69~
+    controller: 'controllers/Controller69.php'
+route70:
+    url: ~home70~
+    controller: 'controllers/Controller70.php'
+route71:
+    url: ~home71~
+    controller: 'controllers/Controller71.php'
+route72:
+    url: ~home72~
+    controller: 'controllers/Controller72.php'
+route73:
+    url: ~home73~
+    controller: 'controllers/Controller73.php'
+route74:
+    url: ~home74~
+    controller: 'controllers/Controller74.php'
+route75:
+    url: ~home75~
+    controller: 'controllers/Controller75.php'
+route76:
+    url: ~home76~
+    controller: 'controllers/Controller76.php'
+route77:
+    url: ~home77~
+    controller: 'controllers/Controller77.php'
+route78:
+    url: ~home78~
+    controller: 'controllers/Controller78.php'
+route79:
+    url: ~home79~
+    controller: 'controllers/Controller79.php'
+route80:
+    url: ~home80~
+    controller: 'controllers/Controller80.php'
+route81:
+    url: ~home81~
+    controller: 'controllers/Controller81.php'
+route82:
+    url: ~home82~
+    controller: 'controllers/Controller82.php'
+route83:
+    url: ~home83~
+    controller: 'controllers/Controller83.php'
+route84:
+    url: ~home84~
+    controller: 'controllers/Controller84.php'
+route85:
+    url: ~home85~
+    controller: 'controllers/Controller85.php'
+route86:
+    url: ~home86~
+    controller: 'controllers/Controller86.php'
+route87:
+    url: ~home87~
+    controller: 'controllers/Controller87.php'
+route88:
+    url: ~home88~
+    controller: 'controllers/Controller88.php'
+route89:
+    url: ~home89~
+    controller: 'controllers/Controller89.php'
+route90:
+    url: ~home90~
+    controller: 'controllers/Controller90.php'
+route91:
+    url: ~home91~
+    controller: 'controllers/Controller91.php'
+route92:
+    url: ~home92~
+    controller: 'controllers/Controller92.php'
+route93:
+    url: ~home93~
+    controller: 'controllers/Controller93.php'
+route94:
+    url: ~home94~
+    controller: 'controllers/Controller94.php'
+route95:
+    url: ~home95~
+    controller: 'controllers/Controller95.php'
+route96:
+    url: ~home96~
+    controller: 'controllers/Controller96.php'
+route97:
+    url: ~home97~
+    controller: 'controllers/Controller97.php'
+route98:
+    url: ~home98~
+    controller: 'controllers/Controller98.php'
+route99:
+    url: ~home99~
+    controller: 'controllers/Controller99.php'
+route100:
+    url: ~home100~
+    controller: 'controllers/Controller100.php'
