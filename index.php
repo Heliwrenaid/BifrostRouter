@@ -7,8 +7,6 @@ if (true){
 }
 
 require "src/core/BifrostRouter.php";
-require "src/core/SimpleCache.php";
-require "src/core/RouterConfiguration/RouterConfigurationYAML.php";
 
 // // YAML with cache
 // $start = microtime(true);
@@ -66,9 +64,17 @@ require "src/core/RouterConfiguration/RouterConfigurationYAML.php";
 // $end = microtime(true);
 
 
-// echo '<br>';
-// $time = $end - $start;
-// echo 'AVG: ' . $time/100;
+//test modes
+$start = microtime(true);
+for($i = 0; $i < 10000; $i++) {
+    $router = new BifrostRouter(SPEED_MODE);
+    unset($router);
+}
+$end = microtime(true);
 
-$router = new BifrostRouter(new RouterConfigurationYAML());
- $router->start();
+echo '</br>';
+$time = $end - $start;
+echo 'AVG: ' . $time/10000 . '</br>';
+
+$router = new BifrostRouter(DEVELOPMENT_MODE);
+$router->start();

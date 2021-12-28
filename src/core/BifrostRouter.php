@@ -1,15 +1,43 @@
 <?php
 
-require_once('Route.php');
-require_once('Request.php');
+require('Route.php');
+require('Request.php');
+require('RouterConfiguration.php');
+require('modes.php');
 
 class BifrostRouter{
     private $routerConfig;
     private $request;
 
-    public function __construct($routerConfig){
-       $this->routerConfig = $routerConfig;
+    public function __construct($mode = null){
+        if ($mode === null){
+            $mode = DEVELOPMENT_MODE;
+        }
+        if ($mode === CACHE_MODE) {
+            $this->routerConfig = $this->getConfigFromCache();
+            if($this->routerConfig == null){
+                $this->routerConfig = new RouterConfiguration($mode);
+                $this->saveConfigToCache($this->routerConfig);
+            }
+        } else {
+            $this->routerConfig = new RouterConfiguration($mode);
+        }
+        
     }
+
+    public function getConfigFromCache(){
+        $file = 'cache/router.cache';
+        if (file_exists($file)) {
+            return unserialize(file_get_contents($file));			
+        } else {
+            return null;
+        }
+    }
+
+    public function saveConfigToCache($obj) {
+        $file = 'cache/router.cache';
+		file_put_contents($file, serialize($obj));
+	}
 
     private function parse_route_opt($route){
 
@@ -103,5 +131,9 @@ class BifrostRouter{
         foreach($_POST as $key => $value){
             $_POST[$key] = htmlspecialchars($value, ENT_QUOTES | ENT_HTML401, 'UTF-8');
         }
+    }
+
+    public function getRouterConfig(){
+        return $this->routerConfig;
     }
 }

@@ -1,0 +1,15 @@
+TODO:
+error if not unique routes names
+add router's config file (filePaths etc.)
+add more convenient tests
+improve build.php ?
+RouterConfiguration: manage options and page404
+
+DONE:
+reorganize directories and files 
+configure routes using diffrent methods (yaml, json, php)
+cache RouterConfiguration object instead of BifrostRouter
+choose router's modes while creating BifrostRouter instance 
+added build.php to generate config file for SPEED_MODE and cache file for CACHE_MODE
+SPEED_MODE check if config file exists -> solved by throwing exception
+improved gen.sh
