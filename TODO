@@ -1,11 +1,16 @@
 TODO:
-error if not unique routes names
 add router's config file (filePaths etc.)
 add more convenient tests
 improve build.php ?
-RouterConfiguration: manage options and page404
+change improper symbol for controller name ?
+autloading class
+Controller.run() can return int related to HTTP status codes
+
 
 DONE:
+
+---------------------------------------- 28.12.2021 ----------------------------------------
+
 reorganize directories and files 
 configure routes using diffrent methods (yaml, json, php)
 cache RouterConfiguration object instead of BifrostRouter
@@ -13,3 +18,22 @@ choose router's modes while creating BifrostRouter instance
 added build.php to generate config file for SPEED_MODE and cache file for CACHE_MODE
 SPEED_MODE check if config file exists -> solved by throwing exception
 improved gen.sh
+
+---------------------------------------- 29.12.2021 ----------------------------------------
+
+new structure for defining routes (define options, route's name depends on controllerID)
+    -> controllerID consists of path (without main controller path) and controller filename (without .php extension) 
+        + can't have _ in filename
+Route.php: check if controller exists
+error if not unique routes names -> only DEVELOPMENT_MODE
+error if not unique urls -> only DEVELOPMENT_MODE 
+RouterConfiguration: page404 -> defaultController is controllers/Page404.php (can set another)
+improved SPEED_MODE by developing special structure for JSON config file 
+    + SpeedRoute class + RouterConfiguration.readConfigForSpeedMode()
+DEVELOPMENT_MODE is slower but checks routes configuration on the fly + give information about errors
+    -> check if routes names/controllers are unique
+    -> check if urls is unique within all routes
+    -> check if proper controller file exists
+    -> throw exception if parsed route file give empty data (syntax error)
+    -> throw exception if controller name is improper (contains '_')
+updated gen.sh

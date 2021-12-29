@@ -1,4 +1,2 @@
-
-route1:
+Controller1:
     url: ~home1$~
-    controller: 'controllers/Controller1.php'

@@ -107,25 +107,14 @@ class BifrostRouter{
     }
 
     private function load404Page(){
-        //header('HTTP/1.1 404 Not Found');
-        $page = $this->page404;
-        if(isset($page)){
-            if(is_string($page)){
-                require_once($page);
-            } else {
-                throw new Exception('404 page can\'t be loaded.');
-            }
-        }else {
-            echo '<h2>ERROR 404: website was not found</h2>';
-        }
+        header('HTTP/1.1 404 Not Found');
+        require($this->routerConfig->get404Page());
+        Controller::run(new Request());
     }
 
 #   getters & setters
-    public function setOptions($optionsArr){
-        $this->optionsArr = $optionsArr;
-    }
-    public function set404Page($page){
-        $this->page404 = $page;
+    public function set404Page($controller){
+        $this->routerConfig->set404Page($controller);
     }
     public function filterPost(){
         foreach($_POST as $key => $value){

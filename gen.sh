@@ -3,48 +3,50 @@ if [[ $1 == '' ]]; then
     echo 'ERROR: enter number of routes'
     exit
 fi
-number=$1
 
+number=$1
+offset=$1
+start=1
+controllersDir='controllers'
 
 file='routes/yaml/routes.yaml'
 echo '' > $file
-for i in `seq 1 $number`; do
-echo "route${i}:
-    url: ~home${i}\$~
-    controller: 'controllers/Controller${i}.php'" >> $file
+for i in `seq $start $number`; do
+echo "Controller${i}:
+    url: ~home${i}\$~" >> $file
 
 done
 
+let "start=number+1";
+let "number=number+offset";
 
 
 file='routes/php/routes.php'
 echo '<?php' > $file
 echo 'return [' >> $file
-for i in `seq 1 $number`; do
-    echo "'route${i}' => ['url' => '~home${i}\$~', 'controller' => 'controllers/Controller${i}.php' ]," >> $file
+for i in `seq $start $number`; do
+    echo "'Controller${i}' => ['url' => '~home${i}$~']," >> $file
 done
 echo '];' >> $file
 
-
+let "start=number+1";
+let "number=number+offset";
 
 file='routes/json/routes.json'
 echo '{' > $file
 let "num=number-1";
-for i in `seq 1 $num`; do
-    echo "\"controllers_Controller${i}.php\":{" >> $file
-    echo "\"url\":[\"~home${i}$~\"]," >> $file
-    echo "\"controller\":\"controllers\\/Controller${i}.php\"" >> $file
+for i in `seq $start $num`; do
+    echo "\"Controller${i}\":{" >> $file
+    echo "\"url\": \"~home${i}$~\"" >> $file
     echo '},' >> $file
 done
 
-echo "\"controllers_Controller${number}.php\":{" >> $file
-echo "\"url\":[\"~home${number}$~\"]," >> $file
-echo "\"controller\":\"controllers\\/Controller${number}.php\"" >> $file
+echo "\"Controller${number}\":{" >> $file
+echo "\"url\": \"~home${number}$~\"" >> $file
 echo '}' >> $file
 echo '}' >> $file
 
 
-controllersDir='controllers'
 for i in `seq 1 $number`; do
     controller="${controllersDir}/Controller${i}.php"
     echo "<?php

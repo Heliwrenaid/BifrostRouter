@@ -7,7 +7,6 @@
 ['filterPost' = true] (default=false) : filtruje całą tablice $_POST
 */
 class Route{
-    private $name;
     private $urls = [];
     private $controller;
     private $options = [];      // ['method' => 'GET', 'lang' => 'en', 'match_query' = false, 'verify_honey_pot' = false]
@@ -28,10 +27,10 @@ class Route{
             }
         }
 
-        // TODO: check if exists and it is passed
         $this->controller = $controller;
-
-        $this->name = str_replace(DIRECTORY_SEPARATOR,'_', $controller);
+        if (!file_exists($this->controller)) {
+            throw new Exception('Controller file doesn\'t exists (filepath : ' . $this->controller .' )');
+        }
 
     }
 
@@ -43,7 +42,7 @@ class Route{
 
 #   getters & setters
     public function getName(){
-        return $this->name;
+        return pathinfo($this->controller, PATHINFO_FILENAME);
     }
     public function getUrls(){
         return $this->urls;

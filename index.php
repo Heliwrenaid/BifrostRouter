@@ -67,7 +67,7 @@ require "src/core/BifrostRouter.php";
 //test modes
 $start = microtime(true);
 for($i = 0; $i < 10000; $i++) {
-    $router = new BifrostRouter(SPEED_MODE);
+    $router = new BifrostRouter(DEVELOPMENT_MODE);
     unset($router);
 }
 $end = microtime(true);

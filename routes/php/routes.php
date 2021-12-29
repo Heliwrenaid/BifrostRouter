@@ -1,4 +1,4 @@
 <?php
 return [
-'route1' => ['url' => '~home1$~', 'controller' => 'controllers/Controller1.php' ],
+    'Controller2' => ['url' => '~home2$~'],
 ];
