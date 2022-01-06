@@ -1,4 +1,7 @@
 <?php
+namespace BifrostRouter;
+use Exception;
+loadConfig();
 
 /* OPTIONS:
 'method' => 'GET'] : POST,PUT etc
@@ -7,9 +10,9 @@
 ['filterPost' = true] (default=false) : filtruje całą tablice $_POST
 */
 class Route{
-    private $urls = [];
-    private $controller;
-    private $options = [];      // ['method' => 'GET', 'lang' => 'en', 'match_query' = false, 'verify_honey_pot' = false]
+    protected $urls = [];
+    protected $controller;
+    protected $options = [];      // ['method' => 'GET', 'lang' => 'en', 'match_query' = false, 'verify_honey_pot' = false]
 
     public function __construct($routeRegexs, $controller, $options = null){
 
@@ -42,7 +45,10 @@ class Route{
 
 #   getters & setters
     public function getName(){
-        return pathinfo($this->controller, PATHINFO_FILENAME);
+        $dir = array();
+        preg_match('~' . CONTROLLERS_DIR . '(.*).php$~', $this->controller, $dir);
+        $dir[1] = str_replace('/', '-' ,$dir[1]);
+        return str_replace('\\', '-' ,$dir[1]);
     }
     public function getUrls(){
         return $this->urls;

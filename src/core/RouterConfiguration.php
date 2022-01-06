@@ -1,8 +1,8 @@
 <?php
-
-require 'vendor/autoload.php';
-require 'SpeedRoute.php';
+namespace BifrostRouter;
+use Exception;
 use Symfony\Component\Yaml\Yaml;
+loadConfig();
 
 class RouterConfiguration{
     private $routeArr = [];
@@ -28,7 +28,7 @@ class RouterConfiguration{
             }
                 break;
             case SPEED_MODE: {
-                $file = __DIR__ . '/config/routes.json';
+                $file = SPEED_MODE_ROUTES_DIR . 'routes.json';
                 if(!file_exists($file)) {
                     throw new Exception('Router configuration was not found. Run "php build.php".');
                 }
@@ -37,7 +37,6 @@ class RouterConfiguration{
                 break;
             default: throw new Exception('RouterConfiguration: unknown mode');
         }
-        $this->page404 = $this->generateControllerPath('Page404');
     }
 
     public function readConfigFromJson($file){
@@ -78,22 +77,22 @@ class RouterConfiguration{
     }
 
     public function readRoutesFromUser(){
-        $files = array_diff(scandir('routes/yaml'), array('.', '..'));
+        $files = array_diff(scandir(ROUTES_DIR . 'yaml'), array('.', '..'));
 
         foreach($files as $file){
-            $this->readConfigFromYaml('routes/yaml/' . $file);
+            $this->readConfigFromYaml(ROUTES_DIR . 'yaml' . DIRECTORY_SEPARATOR . $file);
         }
 
-        $files = array_diff(scandir('routes/json'), array('.', '..'));
+        $files = array_diff(scandir(ROUTES_DIR . 'json'), array('.', '..'));
         
         foreach($files as $file){
-            $this->readConfigFromJson('routes/json/' . $file);
+            $this->readConfigFromJson(ROUTES_DIR . 'json' . DIRECTORY_SEPARATOR . $file);
         }
 
-        $files = array_diff(scandir('routes/php'), array('.', '..'));
+        $files = array_diff(scandir(ROUTES_DIR . 'php'), array('.', '..'));
         
         foreach($files as $file){
-            $this->readConfigFromPHP('routes/php/' . $file);
+            $this->readConfigFromPHP(ROUTES_DIR . 'php' . DIRECTORY_SEPARATOR . $file);
         }
     }
 
@@ -133,14 +132,14 @@ class RouterConfiguration{
     }
 
     public function generateControllerPath($controllerName){
-        if (str_contains($controllerName, '_')) {
-            throw new Exception('Controller name can\'t consist of "_" : ' . $controllerName);
+        if (str_contains($controllerName, '-')) {
+            throw new Exception('Controller name can\'t consist "-" : ' . $controllerName);
         }
 
         $controllerName = ltrim($controllerName, '/');
         $controllerName = ltrim($controllerName, '\\');
        
-        return 'controllers/' . $controllerName . '.php';
+        return CONTROLLERS_DIR . $controllerName . '.php';
     }
 
     public function display() {

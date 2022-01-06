@@ -1,4 +1,7 @@
 <?php
+
+namespace BifrostRouter;
+
 class Request {
     private $url = [];
     private $method;

@@ -50,11 +50,9 @@ echo '}' >> $file
 for i in `seq 1 $number`; do
     controller="${controllersDir}/Controller${i}.php"
     echo "<?php
-    require 'BaseController.php';
-    class Controller implements BaseController {
-        public static function run(\$request) {
-            echo 'echo from controller${i}';
-        }
+class Controller extends BifrostRouter\BaseController {
+    public static function run(\$request) {
+        echo 'echo from controller${i}';
     }
-    " > $controller
+}" > $controller
 done

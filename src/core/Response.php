@@ -1,26 +1,26 @@
 <?php
-require_once('vendor/autoload.php');
-
+namespace BifrostRouter;
+loadConfig();
 class Response{
     private $loader;
     private $twig;
     private $status = 200;
 
-    public function __construct($templatesDir = null, $honeyPotName = false, $csrfTokenName = 'csrfToken'){
-        $this->twigSetup($templatesDir);
-        $this->honeyPotName = $honeyPotName;
-        $this->csrfTokenName = $csrfTokenName;
+    public function __construct($templatesDir = null){
+        if ($templatesDir === null) {
+            $this->twigSetup(VIEWS_DIR);
+        } else {
+            $this->twigSetup($templatesDir);
+        }
     }
 
     private function twigSetup($templatesDir = null){
         if($templatesDir == null){
-            $this->loader = new \Twig\Loader\FilesystemLoader('/');
+            $this->loader = new \Twig\Loader\FilesystemLoader(VIEWS_DIR);
         } else {
             $this->loader = new \Twig\Loader\FilesystemLoader($templatesDir);
         }
-        $this->twig = new \Twig\Environment($this->loader,array(
-            'autoescape' => false
-        ));
+        $this->twig = new \Twig\Environment($this->loader,array());
     }
 
     public function setTemplatesDir($templatesDir){

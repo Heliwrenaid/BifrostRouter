@@ -1,11 +1,7 @@
 TODO:
-add router's config file (filePaths etc.)
 add more convenient tests
 improve build.php ?
-change improper symbol for controller name ?
-autloading class
-Controller.run() can return int related to HTTP status codes
-
+add custom Exceptions
 
 DONE:
 
@@ -37,3 +33,34 @@ DEVELOPMENT_MODE is slower but checks routes configuration on the fly + give inf
     -> throw exception if parsed route file give empty data (syntax error)
     -> throw exception if controller name is improper (contains '_')
 updated gen.sh
+
+---------------------------------------- 30.12.2021 ----------------------------------------
+autoloading class -> using composer PSR-4
+
+---------------------------------------- 06.01.2022 ----------------------------------------
+BifrostRouter->handle():
+    - controller can return one of 3 variable types:
+        - int (code): 
+            - will add to HTTP's response returned status code
+            - throw error if HTTP status code is invalid
+        - string ($scriptFilename):
+            - will execute a script which:
+                - must be placed in SCRIPTS_DIR
+                - script's filename must be same as returned string
+                - script is PHP file with .php extension
+        - ControllerData($scriptFilename, $data):
+            - script requirements as above
+            - will execute script with ControllerData object (saved in $controllerData variable)
+        - other types:
+            - throw error
+added ScriptSandbox class
+BaseController is now a class, not interface
+added config file in project root directory
+    - rewrited classes in order to use constants
+    - constants are loaded by function loadConfig()
+        - function loadConfig() is defined in src/core/functions.php (autoloaded by composer)
+Route->getName():
+    - route name consist of route controller's path without CONTROLLERS_DIR and
+        all '/', '\' characters are replaced by '-'
+    - RouterConfiguration class throw error if defined route controller contains '-' character
+change Route properities from 'private' to 'protected' (to fix SPEED_MODE)

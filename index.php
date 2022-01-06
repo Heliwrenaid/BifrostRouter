@@ -6,7 +6,7 @@ if (true){
     error_reporting(E_ALL);
 }
 
-require "src/core/BifrostRouter.php";
+require 'vendor/autoload.php';
 
 // // YAML with cache
 // $start = microtime(true);
@@ -67,7 +67,7 @@ require "src/core/BifrostRouter.php";
 //test modes
 $start = microtime(true);
 for($i = 0; $i < 10000; $i++) {
-    $router = new BifrostRouter(DEVELOPMENT_MODE);
+    $router = new BifrostRouter\BifrostRouter(SPEED_MODE);
     unset($router);
 }
 $end = microtime(true);
@@ -76,5 +76,5 @@ echo '</br>';
 $time = $end - $start;
 echo 'AVG: ' . $time/10000 . '</br>';
 
-$router = new BifrostRouter(DEVELOPMENT_MODE);
+$router = new BifrostRouter\BifrostRouter(DEVELOPMENT_MODE);
 $router->start();

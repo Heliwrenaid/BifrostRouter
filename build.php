@@ -1,6 +1,7 @@
 <?php
-require 'src/core/BifrostRouter.php';
 
+require 'vendor/autoload.php';
+loadConfig();
 function saveConfigFile($routerConf){
     $arr = array();
     foreach($routerConf->getRoutes() as $route){
@@ -17,9 +18,9 @@ function saveConfigFile($routerConf){
         }
 
     }
-    file_put_contents('src/core/config/routes.json', json_encode($arr));
+    file_put_contents(SPEED_MODE_ROUTES_DIR . 'routes.json', json_encode($arr));
 }
-$router = new BifrostRouter(DEVELOPMENT_MODE);
+$router = new BifrostRouter\BifrostRouter(DEVELOPMENT_MODE);
 
 saveConfigFile($router->getRouterConfig());
 $router->saveConfigToCache($router->getRouterConfig());

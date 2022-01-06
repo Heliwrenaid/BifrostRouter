@@ -1,4 +1,4 @@
 <?php
 return [
-    'Controller2' => ['url' => '~home2$~'],
+'Controller2' => ['url' => '~home2$~'],
 ];
