@@ -64,3 +64,11 @@ Route->getName():
         all '/', '\' characters are replaced by '-'
     - RouterConfiguration class throw error if defined route controller contains '-' character
 change Route properities from 'private' to 'protected' (to fix SPEED_MODE)
+
+---------------------------------------- 18.01.2022 ----------------------------------------
+DEVELOPMENT_MODE:
+    - check if directory with routes exists
+make source compatible with PHP 7 (replace str_contains function)
+more universal config.php (to fix bug on Windows)
+run route controller inside ScriptSandbox
+rename ScriptSandbox -> Sandbox

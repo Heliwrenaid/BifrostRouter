@@ -77,22 +77,28 @@ class RouterConfiguration{
     }
 
     public function readRoutesFromUser(){
-        $files = array_diff(scandir(ROUTES_DIR . 'yaml'), array('.', '..'));
+        if (file_exists(ROUTES_DIR . 'yaml')) {
+            $files = array_diff(scandir(ROUTES_DIR . 'yaml'), array('.', '..'));
 
-        foreach($files as $file){
-            $this->readConfigFromYaml(ROUTES_DIR . 'yaml' . DIRECTORY_SEPARATOR . $file);
+            foreach($files as $file){
+                $this->readConfigFromYaml(ROUTES_DIR . 'yaml' . DIRECTORY_SEPARATOR . $file);
+            }
         }
 
-        $files = array_diff(scandir(ROUTES_DIR . 'json'), array('.', '..'));
-        
-        foreach($files as $file){
-            $this->readConfigFromJson(ROUTES_DIR . 'json' . DIRECTORY_SEPARATOR . $file);
+        if (file_exists(ROUTES_DIR . 'json')) {
+            $files = array_diff(scandir(ROUTES_DIR . 'json'), array('.', '..'));
+            
+            foreach($files as $file){
+                $this->readConfigFromJson(ROUTES_DIR . 'json' . DIRECTORY_SEPARATOR . $file);
+            }
         }
 
-        $files = array_diff(scandir(ROUTES_DIR . 'php'), array('.', '..'));
-        
-        foreach($files as $file){
-            $this->readConfigFromPHP(ROUTES_DIR . 'php' . DIRECTORY_SEPARATOR . $file);
+        if (file_exists(ROUTES_DIR . 'php')) {
+            $files = array_diff(scandir(ROUTES_DIR . 'php'), array('.', '..'));
+            
+            foreach($files as $file){
+                $this->readConfigFromPHP(ROUTES_DIR . 'php' . DIRECTORY_SEPARATOR . $file);
+            }
         }
     }
 
@@ -132,7 +138,7 @@ class RouterConfiguration{
     }
 
     public function generateControllerPath($controllerName){
-        if (str_contains($controllerName, '-')) {
+        if (strpos($controllerName, '-') !== false) {
             throw new Exception('Controller name can\'t consist "-" : ' . $controllerName);
         }
 

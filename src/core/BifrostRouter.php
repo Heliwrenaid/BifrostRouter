@@ -120,8 +120,7 @@ class BifrostRouter{
     }
 
     public function handle($controller, $routeName) {
-        require $controller;
-        $var = \Controller::run($this->request);
+        $var = Sandbox::runController($controller, $this->request);
 
         if (empty($var)){
             return;
@@ -141,9 +140,9 @@ class BifrostRouter{
                 throw new Exception('HTTP code ' . $var . ' is invalid in controller: ' . $controller);
             }
         } else if (is_string($var)){
-            ScriptSandbox::runScript($var);
+            Sandbox::runScript($var);
         } else if (is_object($var) && get_class($var) == 'BifrostRouter\ControllerData') {
-           ScriptSandbox::runControllerData($var, $routeName);
+           Sandbox::runControllerData($var, $routeName);
         } else {
             throw new Exception('Value returned by controller: ' . $controller . ' is invalid');
         }

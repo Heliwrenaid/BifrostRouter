@@ -56,3 +56,5 @@ class Controller extends BifrostRouter\BaseController {
     }
 }" > $controller
 done
+
+php build.php

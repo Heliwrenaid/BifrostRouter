@@ -65,8 +65,11 @@ require 'vendor/autoload.php';
 
 
 //test modes
+$numOfTests = 10000;
+
+echo '<h3>SPEED_MODE</h3>';
 $start = microtime(true);
-for($i = 0; $i < 10000; $i++) {
+for($i = 0; $i < $numOfTests; $i++) {
     $router = new BifrostRouter\BifrostRouter(SPEED_MODE);
     unset($router);
 }
@@ -74,7 +77,27 @@ $end = microtime(true);
 
 echo '</br>';
 $time = $end - $start;
-echo 'AVG: ' . $time/10000 . '</br>';
+echo 'AVG: ' . $time/$numOfTests . '</br>';
 
+echo '<h3>CACHE_MODE</h3>';
+$start = microtime(true);
+for($i = 0; $i < $numOfTests; $i++) {
+    $router = new BifrostRouter\BifrostRouter(SPEED_MODE);
+    unset($router);
+}
+$end = microtime(true);
+
+echo '</br>';
+$time = $end - $start;
+echo 'AVG: ' . $time/$numOfTests . '</br>';
+
+echo '<h3>START FUNCTION</h3>';
 $router = new BifrostRouter\BifrostRouter(DEVELOPMENT_MODE);
+
+$start = microtime(true);
 $router->start();
+$end = microtime(true);
+
+echo '</br>';
+$time = $end - $start;
+echo '<br>AVG: ' . $time/$numOfTests . '</br>';
