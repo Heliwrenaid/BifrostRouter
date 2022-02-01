@@ -45,9 +45,9 @@ class BifrostRouter{
 
     private function parse_route_opt($route){
 
-        $routeMethod = $route->getOption('method');
-        if(isset($routeMethod)){
-            if($this->request->getMethod() != $routeMethod){
+        $routeMethods = $route->getOption('methods');
+        if(isset($routeMethods)){
+            if(!in_array($this->request->getMethod(),$routeMethods)){
                 return false;
             }
         }
@@ -83,18 +83,21 @@ class BifrostRouter{
 
         foreach($this->routerConfig->getRoutes() as $route){
             $url = $this->getUrlForRouting($route);
-
             foreach($route->getUrls() as $route_url){
                 if(preg_match($route_url, $url, $matches)){
                     if ($this->parse_route_opt($route)) {
-
                         if($this->routerConfig->getOption('filterPost') || $route->getOption('filterPost')){
                             $this->filterPost();
                         }
+                        
+                        if ($route->getOption('render') == true) {
+                            Response::render($route->getName(), $route->getOption('context'));
+                        } else {
 
-                        $this->request->vars = filter_var_array(array_slice($matches, 1, count($matches) - 1),FILTER_SANITIZE_SPECIAL_CHARS);
+                            $this->request->vars = filter_var_array(array_slice($matches, 1, count($matches) - 1),FILTER_SANITIZE_SPECIAL_CHARS);
 
-                        $this->handle($route->getController(), $route->getName());
+                            $this->handle($route->getController(), $route->getName());
+                        }
 
                         $isMatched = true;
                         if (!empty($this->routerConfig->getOption('routeOnceTime'))){ return;}

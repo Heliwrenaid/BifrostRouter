@@ -4,9 +4,7 @@ loadConfig();
 
 class Sandbox{
     public static function runController($controller, $request){
-        require $controller;
-        unset($controller);
-        return \Controller::run($request);
+        return call_user_func($controller, $request);    
     }
 
     public static function runScript($scriptPath) {

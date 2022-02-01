@@ -64,16 +64,78 @@ class RouterConfiguration{
     }
 
     public function readConfigFromArray($data){
-        foreach ($data as $controllerName => $routeData) {
+        if (isset($data['routes'])) {
+            $this->readAndAddRoutes($data['routes']);
+        }
+        if (isset($data['groups'])) {
+            foreach ($data['groups'] as $groupName => $groupData) {
+                $this->readAndAddRoutes($groupData['routes'], $groupName, $groupData['prefix']);
+            }
+        }
+    }
 
-            $controllerName = $this->generateControllerPath($controllerName);
+    private function readAndAddRoutes($routes, $groupName = null, $prefix = ''){
+        if ($groupName !== null) {
+            if (strpos($groupName, '-') !== false) {
+                throw new Exception('Group name:' . $groupName . ' cannot consist of \'-\'');
+            }
+
+            $groupName .= '-';
+        }
+
+        foreach ($routes as $routeName => $routeData) {
+            if (strpos($routeName, '-') !== false) {
+                throw new Exception('Route name: ' . $groupName . $routeName . ' cannot consist of \'-\'');
+            }
+
+            if (isset($routeData['render'])) {
+                $controllerName = null;
+            } else {
+                $controllerName = $this->generateController($routeData['controller'], rtrim($groupName, '-'));
+            }
+            $urls = explode(',', $routeData['path']);
+            foreach ($urls as $key => $value) {
+                $urls[$key] = '~^' . trim($prefix) . trim($value) . '$~';
+            }
+
+            // OPTIONS --------------------------------------------
+            if (isset($routeData['methods'])) {
+                $methods = explode(',', $routeData['methods']);
+
+                if (empty($routeData['options'])){
+                    $routeData['options'] = array();
+                    $routeData['options']['methods'] = array();
+                }
+
+                foreach($methods as $method) {
+                    array_push($routeData['options']['methods'], strtoupper(trim($method)));
+                }
+            }
+
+            if (isset($routeData['render']) && $routeData['render'] == true) {
+                if (empty($routeData['options'])){
+                    $routeData['options'] = array();
+                    $routeData['options']['render'] = array();
+                }
+                $routeData['options']['render'] = $routeData['render'];
+            }
+
+            if (isset($routeData['context'])) {
+                if (empty($routeData['options'])){
+                    $routeData['options'] = array();
+                    $routeData['options']['context'] = array();
+                }
+                $routeData['options']['context'] = $routeData['context'];
+            }
+            // ----------------------------------------------------
+
 
             if (!isset($routeData['options'])) {
-                array_push($this->routeArr, new Route($routeData['url'], $controllerName));
+                array_push($this->routeArr, new Route($groupName . $routeName, $urls, $controllerName));
             } else {
-                array_push($this->routeArr, new Route($routeData['url'], $controllerName, $routeData['options']));
-            }        
-        }
+                array_push($this->routeArr, new Route($groupName . $routeName, $urls, $controllerName, $routeData['options']));
+            }  
+        }   
     }
 
     public function readRoutesFromUser(){
@@ -106,9 +168,9 @@ class RouterConfiguration{
         $data = json_decode(file_get_contents($file), true);
         foreach ($data as $controllerPath => $routeData) {
             if (isset($routeData['options'])) {
-                array_push($this->routeArr, new SpeedRoute($routeData['url'], $controllerPath, $routeData['options']));
+                array_push($this->routeArr, new SpeedRoute($routeData['name'], $routeData['url'], $controllerPath, $routeData['options']));
             } else {
-                array_push($this->routeArr, new SpeedRoute($routeData['url'], $controllerPath,[]));
+                array_push($this->routeArr, new SpeedRoute($routeData['name'], $routeData['url'], $controllerPath,[]));
             }
         }
     }
@@ -116,10 +178,12 @@ class RouterConfiguration{
     public function areControllersNamesUnique(){
         $routesNames = array();
         foreach ($this->routeArr as $route) {
-            if (in_array($route->getController(), $routesNames)) {
-                throw new Exception('Controller name is not unique: ' . $route->getController());
-            } else {
-                array_push($routesNames, $route->getController());
+            if ($route->getOption('render') !== true) {
+                if (in_array($route->getController(), $routesNames)) {
+                    throw new Exception('Controller name is not unique: ' . $route->getController());
+                } else {
+                    array_push($routesNames, $route->getController());
+                }
             }
         }
     }
@@ -137,15 +201,23 @@ class RouterConfiguration{
         }
     }
 
-    public function generateControllerPath($controllerName){
+    public function generateController($controllerName, $groupName = ''){
         if (strpos($controllerName, '-') !== false) {
             throw new Exception('Controller name can\'t consist "-" : ' . $controllerName);
         }
 
         $controllerName = ltrim($controllerName, '/');
         $controllerName = ltrim($controllerName, '\\');
-       
-        return CONTROLLERS_DIR . $controllerName . '.php';
+
+        if (strpos($controllerName, '::') === false) {
+            $controllerName .= '::run';
+        }
+
+        if (empty($groupName)) {
+            return 'App\Controller\\' . $controllerName;
+        } else {
+            return 'App\Controller\\' . $groupName . '\\' . $controllerName;
+        }
     }
 
     public function display() {
@@ -185,6 +257,6 @@ class RouterConfiguration{
     }
 
     public function set404Page($controller) {
-        $this->page404 = $this->generateControllerPath($controller);
+        $this->page404 = $this->generateController($controller);
     }
 }

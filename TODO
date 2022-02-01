@@ -72,3 +72,24 @@ make source compatible with PHP 7 (replace str_contains function)
 more universal config.php (to fix bug on Windows)
 run route controller inside ScriptSandbox
 rename ScriptSandbox -> Sandbox
+
+
+---------------------------------------- 21.01.2022 ----------------------------------------
+path cannot contains: , and ~ (~ can be escaped)
+
+---------------------------------------- 27-31.01.2022 ----------------------------------------
+new route file scheme
+	- added route groups
+	- route name = group name + '-' + route name
+	- throw error if route/group name consists '-' character
+	- group name is a part of namespace for controller and directory name inside /controllers
+	- convention: group name's first letter should be in uppercase (because it is namespace)
+    - route template name is related to route name
+    - new key for route: 'methods: GET, post' -> define route method (case insensitive), character ',' is delimiter
+    - new keys for route: 'render: true' and 'context: <ARRAY>' -> render template with/without context
+        - it is no need to create controller
+controllers now must have proper namespace related to route's group prefix
+updated gen.sh
+updated build.php
+Response class as static: new method to render template from route name
+Response class: make rederiction (+ exit) from route name // require to run `php build.php` after changing routes

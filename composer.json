@@ -5,7 +5,8 @@
     },
     "autoload": {
         "psr-4": {
-            "BifrostRouter\\": "src\\core"
+            "BifrostRouter\\": "src\\core",
+            "App\\Controller\\": "controllers"
         },
         "files": [
             "src/core/functions.php"

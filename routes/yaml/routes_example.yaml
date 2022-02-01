@@ -1,0 +1,32 @@
+
+routes:
+    home:
+        path: /home
+        methods: PUT, get
+        render: true
+        context:
+            key: value
+
+    task:
+        path: /task1
+        controller: Controller2
+
+
+groups:
+
+    Blog:
+        prefix: /blog/([1-9]+)
+        
+        routes:
+            add:
+                path: /add, /addMe
+                controller: Controller1
+
+            extra:
+                path: /extra/([a-z]+)/sth
+                controller: Controller4::list
+                methods: GET
+
+            without:
+                path: /w
+                render: true

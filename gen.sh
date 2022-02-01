@@ -1,4 +1,22 @@
 #!/bin/bash
+
+function generateController {
+    start=$1
+    stop=$2
+    name=$3
+    for i in `seq $start $stop`; do
+    controller="${controllersDir}/${name}${i}.php"
+echo "<?php
+namespace App\Controller;
+class ${name}${1} extends \BifrostRouter\BaseController {
+    public static function run(\$request) {
+        echo 'echo from controller defined in ${name}${i} route';
+    }
+}" > $controller
+    done
+}
+
+
 if [[ $1 == '' ]]; then
     echo 'ERROR: enter number of routes'
     exit
@@ -9,52 +27,74 @@ offset=$1
 start=1
 controllersDir='controllers'
 
-file='routes/yaml/routes.yaml'
-echo '' > $file
-for i in `seq $start $number`; do
-echo "Controller${i}:
-    url: ~home${i}\$~" >> $file
+generateController $start $number 'Yaml'
 
+startYaml=$start
+file='routes/yaml/routes_test.yaml'
+echo 'routes:' > $file
+for i in `seq $start $number`; do
+    echo "
+    yaml$i:
+        path: /yaml$i
+        controller: Yaml$1
+    " >> $file
 done
 
 let "start=number+1";
 let "number=number+offset";
 
+generateController $start $number 'Php'
 
-file='routes/php/routes.php'
-echo '<?php' > $file
-echo 'return [' >> $file
+file='routes/php/routes_test.php'
+echo "
+<?php
+return [
+    'routes' => [
+" > $file
 for i in `seq $start $number`; do
-    echo "'Controller${i}' => ['url' => '~home${i}$~']," >> $file
+    echo "
+    'route$i' => [
+        'path' => '/php$i',
+        'controller' => 'Php$i'
+    ],
+    " >> $file
 done
-echo '];' >> $file
+echo "
+    ]
+];
+" >> $file
 
 let "start=number+1";
 let "number=number+offset";
 
-file='routes/json/routes.json'
-echo '{' > $file
+generateController $start $number 'Json'
+
+file='routes/json/routes_test.json'
+echo '
+{
+    "routes": {
+' > $file
+
 let "num=number-1";
 for i in `seq $start $num`; do
-    echo "\"Controller${i}\":{" >> $file
-    echo "\"url\": \"~home${i}$~\"" >> $file
-    echo '},' >> $file
+    echo "
+    \"json$i\": {
+            \"path\": \"/json$i\",
+            \"controller\": \"Json$i\"
+        },
+    " >> $file
 done
+ echo "
+    \"json$number\": {
+            \"path\": \"/json$number\",
+            \"controller\": \"Json$number\"
+        }
+    " >> $file
 
-echo "\"Controller${number}\":{" >> $file
-echo "\"url\": \"~home${number}$~\"" >> $file
-echo '}' >> $file
-echo '}' >> $file
-
-
-for i in `seq 1 $number`; do
-    controller="${controllersDir}/Controller${i}.php"
-    echo "<?php
-class Controller extends BifrostRouter\BaseController {
-    public static function run(\$request) {
-        echo 'echo from controller${i}';
+echo "
     }
-}" > $controller
-done
+}
+" >> $file
+
 
 php build.php
