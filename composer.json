@@ -1,7 +1,8 @@
 {
     "name": "heliwrenaid/bifrost-router",
     "description": "Simple micro framework for PHP",
-    "type": "vcs",
+    "type": "library",
+    "license": "MIT",
     "require": {
         "twig/twig": "^3.0",
         "symfony/yaml": "^5.4"
