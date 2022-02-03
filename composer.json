@@ -1,12 +1,14 @@
 {
+    "name": "heliwrenaid/bifrost-router",
+    "description": "Simple micro framework for PHP",
+    "type": "vcs",
     "require": {
         "twig/twig": "^3.0",
         "symfony/yaml": "^5.4"
     },
     "autoload": {
         "psr-4": {
-            "BifrostRouter\\": "src\\core",
-            "App\\Controller\\": "controllers"
+            "BifrostRouter\\": "src\\core"
         },
         "files": [
             "src/core/functions.php"

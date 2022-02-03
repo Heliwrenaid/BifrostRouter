@@ -2,6 +2,7 @@ TODO:
 add more convenient tests
 improve build.php ?
 add custom Exceptions
+SPEED_MODE: change route config file scheme (problem with static pages)
 
 DONE:
 
@@ -93,3 +94,6 @@ updated gen.sh
 updated build.php
 Response class as static: new method to render template from route name
 Response class: make rederiction (+ exit) from route name // require to run `php build.php` after changing routes
+
+---------------------------------------- 01-03.01.2022 ----------------------------------------
+some changes in order to deploy a composer package

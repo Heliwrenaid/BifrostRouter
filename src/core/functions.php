@@ -1,4 +1,4 @@
 <?php
 function loadConfig(){
-    require __DIR__ . '/../../config.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 }
