@@ -1,0 +1,99 @@
+TODO:
+add more convenient tests
+improve build.php ?
+add custom Exceptions
+SPEED_MODE: change route config file scheme (problem with static pages)
+
+DONE:
+
+---------------------------------------- 28.12.2021 ----------------------------------------
+
+reorganize directories and files 
+configure routes using diffrent methods (yaml, json, php)
+cache RouterConfiguration object instead of BifrostRouter
+choose router's modes while creating BifrostRouter instance 
+added build.php to generate config file for SPEED_MODE and cache file for CACHE_MODE
+SPEED_MODE check if config file exists -> solved by throwing exception
+improved gen.sh
+
+---------------------------------------- 29.12.2021 ----------------------------------------
+
+new structure for defining routes (define options, route's name depends on controllerID)
+    -> controllerID consists of path (without main controller path) and controller filename (without .php extension) 
+        + can't have _ in filename
+Route.php: check if controller exists
+error if not unique routes names -> only DEVELOPMENT_MODE
+error if not unique urls -> only DEVELOPMENT_MODE 
+RouterConfiguration: page404 -> defaultController is controllers/Page404.php (can set another)
+improved SPEED_MODE by developing special structure for JSON config file 
+    + SpeedRoute class + RouterConfiguration.readConfigForSpeedMode()
+DEVELOPMENT_MODE is slower but checks routes configuration on the fly + give information about errors
+    -> check if routes names/controllers are unique
+    -> check if urls is unique within all routes
+    -> check if proper controller file exists
+    -> throw exception if parsed route file give empty data (syntax error)
+    -> throw exception if controller name is improper (contains '_')
+updated gen.sh
+
+---------------------------------------- 30.12.2021 ----------------------------------------
+autoloading class -> using composer PSR-4
+
+---------------------------------------- 06.01.2022 ----------------------------------------
+BifrostRouter->handle():
+    - controller can return one of 3 variable types:
+        - int (code): 
+            - will add to HTTP's response returned status code
+            - throw error if HTTP status code is invalid
+        - string ($scriptFilename):
+            - will execute a script which:
+                - must be placed in SCRIPTS_DIR
+                - script's filename must be same as returned string
+                - script is PHP file with .php extension
+        - ControllerData($scriptFilename, $data):
+            - script requirements as above
+            - will execute script with ControllerData object (saved in $controllerData variable)
+        - other types:
+            - throw error
+added ScriptSandbox class
+BaseController is now a class, not interface
+added config file in project root directory
+    - rewrited classes in order to use constants
+    - constants are loaded by function loadConfig()
+        - function loadConfig() is defined in src/core/functions.php (autoloaded by composer)
+Route->getName():
+    - route name consist of route controller's path without CONTROLLERS_DIR and
+        all '/', '\' characters are replaced by '-'
+    - RouterConfiguration class throw error if defined route controller contains '-' character
+change Route properities from 'private' to 'protected' (to fix SPEED_MODE)
+
+---------------------------------------- 18.01.2022 ----------------------------------------
+DEVELOPMENT_MODE:
+    - check if directory with routes exists
+make source compatible with PHP 7 (replace str_contains function)
+more universal config.php (to fix bug on Windows)
+run route controller inside ScriptSandbox
+rename ScriptSandbox -> Sandbox
+
+
+---------------------------------------- 21.01.2022 ----------------------------------------
+path cannot contains: , and ~ (~ can be escaped)
+
+---------------------------------------- 27-31.01.2022 ----------------------------------------
+new route file scheme
+	- added route groups
+	- route name = group name + '-' + route name
+	- throw error if route/group name consists '-' character
+	- group name is a part of namespace for controller and directory name inside /controllers
+	- convention: group name's first letter should be in uppercase (because it is namespace)
+    - route template name is related to route name
+    - new key for route: 'methods: GET, post' -> define route method (case insensitive), character ',' is delimiter
+    - new keys for route: 'render: true' and 'context: <ARRAY>' -> render template with/without context
+        - it is no need to create controller
+controllers now must have proper namespace related to route's group prefix
+updated gen.sh
+updated build.php
+Response class as static: new method to render template from route name
+Response class: make rederiction (+ exit) from route name // require to run `php build.php` after changing routes
+
+---------------------------------------- 01-03.01.2022 ----------------------------------------
+some changes in order to deploy a composer package
