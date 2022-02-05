@@ -1,8 +1,6 @@
 TODO:
 add more convenient tests
-improve build.php ?
 add custom Exceptions
-SPEED_MODE: change route config file scheme (problem with static pages)
 
 DONE:
 
@@ -97,3 +95,8 @@ Response class: make rederiction (+ exit) from route name // require to run `php
 
 ---------------------------------------- 01-03.01.2022 ----------------------------------------
 some changes in order to deploy a composer package
+
+---------------------------------------- 04.01.2022 ----------------------------------------
+SPEED_MODE: change route config file scheme (resolved problem with static pages)
+bifrost.php: added support for Windows
+build.php: automatically creating Controller class if not exists
