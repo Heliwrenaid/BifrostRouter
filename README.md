@@ -24,6 +24,7 @@ Go to project root directory and run:
 
 ```
 
+cd /path/to/app/directory
 composer install
 composer bifrost-router install
 
