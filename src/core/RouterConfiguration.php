@@ -129,12 +129,19 @@ class RouterConfiguration{
             }
             // ----------------------------------------------------
 
-
-            if (!isset($routeData['options'])) {
-                array_push($this->routeArr, new Route($groupName . $routeName, $urls, $controllerName));
+            if (array_key_exists('buildMode', $this->optionsArr)) {
+                if (!isset($routeData['options'])) {
+                    array_push($this->routeArr, new SpeedRoute($groupName . $routeName, $urls, $controllerName));
+                } else {
+                    array_push($this->routeArr, new SpeedRoute($groupName . $routeName, $urls, $controllerName, $routeData['options']));
+                }  
             } else {
-                array_push($this->routeArr, new Route($groupName . $routeName, $urls, $controllerName, $routeData['options']));
-            }  
+                if (!isset($routeData['options'])) {
+                    array_push($this->routeArr, new Route($groupName . $routeName, $urls, $controllerName));
+                } else {
+                    array_push($this->routeArr, new Route($groupName . $routeName, $urls, $controllerName, $routeData['options']));
+                }  
+            }
         }   
     }
 
@@ -166,11 +173,11 @@ class RouterConfiguration{
 
     public function readConfigForSpeedMode($file){
         $data = json_decode(file_get_contents($file), true);
-        foreach ($data as $controllerPath => $routeData) {
+        foreach ($data as $routeName => $routeData) {
             if (isset($routeData['options'])) {
-                array_push($this->routeArr, new SpeedRoute($routeData['name'], $routeData['url'], $controllerPath, $routeData['options']));
+                array_push($this->routeArr, new SpeedRoute($routeName , $routeData['path'], $routeData['controller'], $routeData['options']));
             } else {
-                array_push($this->routeArr, new SpeedRoute($routeData['name'], $routeData['url'], $controllerPath,[]));
+                array_push($this->routeArr, new SpeedRoute($routeName , $routeData['path'], $routeData['controller'],[]));
             }
         }
     }

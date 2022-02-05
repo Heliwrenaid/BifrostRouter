@@ -13,7 +13,7 @@ class BifrostRouter{
     private $routerConfig;
     private $request;
 
-    public function __construct($mode = null){
+    public function __construct($mode = null, $optionsArr = null){
         if ($mode === null){
             $mode = DEVELOPMENT_MODE;
         }
@@ -24,7 +24,7 @@ class BifrostRouter{
                 $this->saveConfigToCache($this->routerConfig);
             }
         } else {
-            $this->routerConfig = new RouterConfiguration($mode);
+            $this->routerConfig = new RouterConfiguration($mode, $optionsArr);
         }
         
     }

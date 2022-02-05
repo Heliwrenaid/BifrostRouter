@@ -1,5 +1,6 @@
 <?php
 function createDirectories($appDir) {
+	global $separator;
     require $appDir . 'config.php';
     $oldMask = umask(0);
     $directories = [
@@ -11,9 +12,9 @@ function createDirectories($appDir) {
         CACHE_DIR => 0777,
         CONFIG_DIR => 0777,
         SPEED_MODE_ROUTES_DIR => 0777,
-        ROUTES_DIR . '/yaml' => 0755,
-        ROUTES_DIR . '/php' => 0755,
-        ROUTES_DIR . '/json' => 0755
+        ROUTES_DIR . $separator . 'yaml' => 0755,
+        ROUTES_DIR . $separator . 'php' => 0755,
+        ROUTES_DIR . $separator . 'json' => 0755
     ];
 
     foreach ($directories as $directory => $mode)
@@ -30,8 +31,14 @@ if (!isset($argv[1])) {
     exit;
 }
 
-$dir = 'vendor/heliwrenaid/bifrost-router';
-$suffix = $dir . '/scripts';
+if (DIRECTORY_SEPARATOR == '/') {
+	$separator = '/';
+} else {
+	$separator = "\\\\";
+}
+
+$dir = 'vendor' . $separator . 'heliwrenaid' . $separator . 'bifrost-router';
+$suffix = $dir . $separator . 'scripts';
 
 $cmd = $argv[1];
 
@@ -42,17 +49,23 @@ if (!isset($matches[0]) || empty($matches)) {
 }
 
 $appDir = $matches[1];
-$packageDir = $appDir . $dir . '/';
+$packageDir = str_replace('\\\\', '\\', $appDir . $dir . $separator);
+
+if ($separator == '\\\\') {
+	$separator = "\\";
+}
 
 if ($cmd === 'install') {
     createDirectories($appDir);
-    file_put_contents($packageDir . 'src/core/functions.php',
-        '<?php function loadConfig(){ require \'' . $appDir . '/config.php\';}');
+    file_put_contents($packageDir . 'src' . $separator . 'core' . $separator . 'functions.php',
+        '<?php function loadConfig(){ require \'' . $appDir . $separator . 'config.php\';}');
 
 } elseif ($cmd === 'build') {
-    require $packageDir . 'scripts/build.php';
+    require $packageDir . 'scripts' . $separator . 'build.php';
     build($appDir);
 } elseif ($cmd === 'script-debug') {
     echo "Package directory: $packageDir\n";
     echo "App directory: $appDir\n";
+} else {
+	throw new Exception('Unknown command');
 }
