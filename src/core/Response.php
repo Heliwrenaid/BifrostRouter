@@ -23,6 +23,14 @@ class Response{
 	}
 
     private static function twigSetup(){
+        if (class_exists('\App\Extra\TwigConfiguration')) {
+            if (!method_exists('\App\Extra\TwigConfiguration', 'getTwigEnvironment')) {
+                throw new Exception('Cannot find static method getTwigEnvironment() in class: \App\Extra\TwigConfiguration');
+            } else {
+                return \App\Extra\TwigConfiguration::getTwigEnvironment();
+            }
+        }
+
         $loader = new \Twig\Loader\FilesystemLoader(VIEWS_DIR);
         return new \Twig\Environment($loader,array());
     }
